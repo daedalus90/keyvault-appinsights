@@ -2,8 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workflows_kv_expiration_logger_app_name": {
+        "ExpirationLogicAppName": {
             "defaultValue": "kv-expiration-logger-app",
+            "type": "String"
+        },
+        "TargetKeyVault": {
+            "defaultValue": "target-key-vault",
             "type": "String"
         }
     },
@@ -12,7 +16,7 @@
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('workflows_kv_expiration_logger_app_name')]",
+            "name": "[parameters('ExpirationLogicAppName')]",
             "location": "centralus",
             "identity": {
                 "principalId": "00858b1f-0737-43f6-96b2-97aa526af8a1",
@@ -84,7 +88,7 @@
                                     "type": "ManagedServiceIdentity"
                                 },
                                 "method": "GET",
-                                "uri": "https://keys-with-expiration.vault.azure.net/secrets?api-version=7.0"
+                                "uri": "https://[parameters('TargetKeyVault')].vault.azure.net/secrets?api-version=7.0"
                             },
                             "description": "List the secrets from key vault."
                         },
